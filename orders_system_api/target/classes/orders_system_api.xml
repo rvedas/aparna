@@ -21,11 +21,9 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
         <logger message="Logger from Sivaji" level="INFO" doc:name="Logger"/>
 
         <logger message="logger from teja" level="INFO" doc:name="Logger"/>
-<<<<<<< HEAD
-        <logger message="Second logger from teja" level="INFO" doc:name="Logger"/>
-=======
 
->>>>>>> ca50f46cffaaaf4c301f50d5be721320e12c68b2
+        <logger message="Second logger from teja" level="INFO" doc:name="Logger"/>
+
         <splitter expression="#[xpath3('//Transaction',payload,'NODESET')]" doc:name="Splitter"/>
         <mulexml:dom-to-xml-transformer doc:name="DOM to XML"/>
         <logger message="payload after converting dom to xml : #[payload]" level="INFO" doc:name="Logger"/>
