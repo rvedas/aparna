@@ -18,6 +18,7 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
         <set-session-variable variableName="orig_file_name" value="#[message.inboundProperties.originalFilename]" doc:name="Session Variable"/>
         <logger message="This is a test logger" level="INFO" doc:name="Logger"/>
         <logger message="logger from teja" level="INFO" doc:name="Logger"/>
+        <logger message="Second logger from teja" level="INFO" doc:name="Logger"/>
         <splitter expression="#[xpath3('//Transaction',payload,'NODESET')]" doc:name="Splitter"/>
         <mulexml:dom-to-xml-transformer doc:name="DOM to XML"/>
         <logger message="payload after converting dom to xml : #[payload]" level="INFO" doc:name="Logger"/>
