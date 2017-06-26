@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
+    <file:connector name="File_Global_Element" autoDelete="false" streaming="true" validateConnections="true" doc:name="File"/>
+    <flow name="orders_apiFlow">
+        <file:inbound-endpoint path="/Users/shiva/Desktop/aparna/orders/file_input" connector-ref="File_Global_Element" pollingFrequency="10000" responseTimeout="10000" doc:name="File_Input">
+            <file:filename-regex-filter pattern=".*.xml" caseSensitive="true"/>
+        </file:inbound-endpoint>
+        <logger message="Input file name : #[message.inboundProperties.originalFilename]" level="INFO" doc:name="Logger"/>
+        <set-session-variable variableName="orig_file_name" value="#[message.inboundProperties.originalFilename]" doc:name="Session Variable"/>
+        <splitter expression="#[xpath3('//Transaction',payload,'NODESET')]" doc:name="Splitter"/>
+        <mulexml:dom-to-xml-transformer doc:name="DOM to XML"/>
+        <logger message="payload after converting dom to xml : #[payload]" level="INFO" doc:name="Logger"/>
+        <file:outbound-endpoint path="/Users/shiva/Desktop/aparna/orders/file_output" outputPattern="#[function:systime]_#[sessionVars.orig_file_name]" connector-ref="File_Global_Element" responseTimeout="10000" doc:name="File_Output"/>
+    </flow>
+</mule>
